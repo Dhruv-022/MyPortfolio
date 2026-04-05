@@ -1,0 +1,50 @@
+TITLE: Vocal Greeting System
+TAG: 0x001
+DESC: A temporal logic bridge for automated speech synthesis.
+REQS: Python 3.10+, pyttsx3
+OPER: Synchronous OS level audio output based on 24h clock cycles.
+PROT: 1. Save as .py | 2. Install deps | 3. Run via Terminal
+---
+import pyttsx3
+import datetime
+
+import pyttsx3
+import random
+import  sys
+from datetime import datetime as dt
+def greet(hour,minute):
+    if 0 <= hour <= 4:
+        return "Very Good Morning"
+    elif 5 <= hour <= 11:
+        return "Good Morning"
+    elif hour == 12:
+        if minute <= 2:
+            return "Good Noon"
+        else:
+            return "Good afternoon"
+    elif 13 <= hour <= 16:
+       return "Good afternoon"
+    elif 17 <= hour <= 22:
+        return "Good Evening"
+    else:
+        return "Good night"
+
+
+
+suffix=["Boss","Sir","Master"]
+
+#____________Timing
+now = dt.now()
+hour = now.hour
+minute = now.minute
+
+#____________Speaker engine
+engine = pyttsx3.init()
+engine.setProperty('rate', 165)
+engine.setProperty('volume', 0.9)
+
+voices = engine.getProperty('voices')
+engine.setProperty('voice', voices[2].id)
+engine.say(f"{greet(hour,minute)} {random.choice(suffix)}")
+
+engine.runAndWait()

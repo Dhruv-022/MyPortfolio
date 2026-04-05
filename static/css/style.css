@@ -1,0 +1,1526 @@
+/*
+==========================================================================
+ BASE STYLES & VARIABLES (LUCID BLUE DEFAULT)
+==========================================================================
+*/
+:root {
+    /* -- LIGHT THEME PALETTE -- */
+    --color-tertiary: #ffffff;
+    --color-text-main: #212121;
+    --color-text-accent: #0d47a1;
+    --color-particle: rgba(0, 0, 0, 0.5);
+    --color-particle-line: rgba(25, 118, 210, 0.25);
+    --color-card-bg: rgba(255, 255, 255, 0.5);
+    --color-card-border: rgba(0, 0, 0, 0.1);
+    --color-card-shadow: rgba(0, 0, 0, 0.1);
+    --color-light-blue-accent: #64b5f6; /* Default for Lucid Blue, will be overridden */
+
+    /* -- TYPOGRAPHY -- */
+    --font-family-main: 'Inter', sans-serif;
+    --font-family-intro: 'Lora', serif;
+    --font-size-h1: 4.5rem;
+    --font-size-p: 1.5rem;
+
+    /* -- ANIMATION & TRANSITION SPEEDS -- */
+    --speed-gradient: 15s;
+    --card-transition-duration: 600ms;
+}
+
+/*
+==========================================================================
+ METALLIC SKY THEME
+==========================================================================
+*/
+body.theme-metallic-sky {
+    --color-primary: #1a237e;
+    --color-secondary: #5c6bc0;
+    --color-tertiary: #000000;
+    --color-text-main: #ffffff;
+    --color-text-accent: #e8eaf6;
+    --color-particle: rgba(255, 255, 255, 0.9); /* Brighter for visibility */
+    --color-particle-line: rgba(129, 212, 250, 0.4); /* Subtle blue glow */
+    --color-background-start: #020617; /* Deeper midnight blue */
+    --color-background-end: #000000;
+    --color-card-bg: rgba(26, 35, 126, 0.2);
+    --color-card-border: rgba(92, 107, 192, 0.3);
+    --color-card-shadow: rgba(0, 0, 0, 0.3);
+    --color-light-blue-accent: #81d4fa; /* Lighter blue for Metallic Sky */
+}
+
+/* Metallic Sky specific overrides */
+.theme-metallic-sky .hero::before,
+.theme-metallic-sky .about-me::before {
+    background: var(--bg-gradient-metallic);
+    background-size: 100% 100%;
+    animation: none; /* Removes the movement to prevent disbalance */
+}
+
+.theme-metallic-sky .hero-subheadline,
+.theme-metallic-sky .section-title {
+    color: var(--color-light-blue-accent);
+    text-shadow: 0 0 12px rgba(129, 212, 250, 0.8);
+}
+
+.theme-metallic-sky .scroll-indicator a {
+    border-color: var(--color-light-blue-accent);
+    color: var(--color-light-blue-accent);
+    background-color: transparent;
+    box-shadow: 0 0 10px var(--color-light-blue-accent), 0 0 20px var(--color-light-blue-accent);
+}
+
+.theme-metallic-sky .scroll-indicator a:hover {
+    transform: scale(1.1);
+    background-color: transparent;
+}
+
+.theme-metallic-sky .scroll-indicator {
+    animation-name: pulse-metallic;
+}
+
+@keyframes pulse-metallic {
+    0% {
+        transform: translateX(-50%) scale(1);
+        box-shadow: 0 0 0 0 rgba(129, 212, 250, 0.7);
+    }
+    70% {
+        transform: translateX(-50%) scale(1);
+        box-shadow: 0 0 0 15px rgba(129, 212, 250, 0);
+    }
+    100% {
+        transform: translateX(-50%) scale(1);
+        box-shadow: 0 0 0 0 rgba(129, 212, 250, 0);
+    }
+}
+
+.theme-metallic-sky .more-info-toggle,
+.theme-metallic-sky .download-resume-btn {
+    border-color: var(--color-light-blue-accent);
+    color: #ffffff;
+    background-color: transparent;
+}
+
+.theme-metallic-sky .more-info-toggle:hover,
+.theme-metallic-sky .download-resume-btn:hover {
+    background-color: var(--color-background-start);
+    color: #ffffff;
+    border-color: var(--color-light-blue-accent);
+    box-shadow: 0 0 10px var(--color-light-blue-accent), 0 0 20px var(--color-light-blue-accent);
+}
+
+.theme-metallic-sky .project-card:hover {
+    box-shadow: 0 0 25px -5px var(--color-light-blue-accent);
+}
+
+.theme-metallic-sky .project-btn {
+    border-color: var(--color-light-blue-accent);
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.theme-metallic-sky .project-btn:hover {
+    background-color: var(--color-background-start);
+    color: #ffffff;
+    border-color: var(--color-light-blue-accent);
+    box-shadow: 0 0 10px var(--color-light-blue-accent), 0 0 20px var(--color-light-blue-accent);
+}
+
+.theme-metallic-sky .project-card--placeholder {
+    background-color: var(--color-card-bg);
+    backdrop-filter: blur(5px);
+}
+
+.theme-metallic-sky .project-card--placeholder .project-content p {
+    color: var(--color-secondary);
+    font-size: 1.2rem;
+    font-weight: normal;
+    text-shadow: none;
+}
+
+.theme-metallic-sky .timeline-date {
+    color: var(--color-light-blue-accent);
+    font-weight: 700;
+    text-shadow: 0 0 12px rgba(129, 212, 250, 0.8);
+}
+
+.theme-metallic-sky .timeline-item::before {
+    background-color: var(--color-light-blue-accent);
+    box-shadow: 0 0 12px rgba(129, 212, 250, 0.8);
+    border-color: var(--color-tertiary);
+}
+
+
+/* ================================================================= */
+/* CSS RESET & BASE STYLES
+/* ================================================================= */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-family-main);
+    background-color: var(--color-tertiary);
+    color: var(--color-text-main);
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+body.intro-active {
+    overflow: hidden;
+}
+
+/*
+==========================================================================
+ INTRO OVERLAY STYLES
+==========================================================================
+*/
+
+/* --- REFINED INTRO SEQUENCE STYLES --- */
+.intro-sequence {
+    display: flex;
+    flex-direction: column;
+    /* Aligns all children (Era, Presents, Name) to the left of the container */
+    align-items: flex-start; 
+    justify-content: center;
+    /* Keeps the entire block in the center of the screen */
+    margin: 0 auto;
+    gap: 0.2rem;
+    z-index: 10;
+}
+
+.intro-small-text {
+    font-family: var(--font-family-intro); /* Lora, serif */
+    /* Remove bold: using 300 or 400 to match the main text's weight */
+    font-weight: 400; 
+    /* Significantly smaller size as requested */
+    font-size: clamp(0.8rem, 2vw, 1.2rem); 
+    color: #e8eaf6;
+    text-shadow: 0 0 8px rgba(232, 234, 246, 0.5), 0 0 20px rgba(92, 107, 192, 0.5);
+    opacity: 0;
+    margin: 0;
+    /* Ensures they stay left-aligned even if the container grows */
+    text-align: left;
+}
+
+/* Adjust the main name container to ensure it doesn't force centering */
+#intro-text {
+    margin: 0;
+    text-align: left;
+    display: flex;
+    flex-wrap: wrap;
+    transition: opacity 1s ease-out;
+}
+
+/* Animation timings remain the same for the sequence */
+#intro-era {
+    opacity: 1;
+    animation: fadeOutContainer 0.8s ease forwards;
+    animation-delay: 3.5s; /* Wait for typewriter to finish */
+}
+
+@keyframes scaleInFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9); /* Subtle scale is smoother than 0.5 */
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+#intro-presents {
+    opacity: 1;
+    /* This animation will trigger the fade-out */
+    animation: fadeOutContainer 0.8s ease forwards;
+    /* 8.5s ensures it stays visible through the name reveal 
+       but disappears exactly as the overlay starts its 9.5s transition */
+    animation-delay: 8.5s; 
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translateX(5px); }
+    15% { opacity: 1; transform: translateX(0); } /* Quick fade in */
+    85% { opacity: 1; transform: translateX(0); } /* Long hold */
+    100% { opacity: 0; transform: translateX(-5px); } /* Smooth fade out */
+}
+
+@keyframes fadeOutContainer {
+    from { 
+        opacity: 1; 
+    }
+    to { 
+        opacity: 0; 
+        /* Removing translateY to ensure no "jumping" during the exit */
+    }
+}
+
+@keyframes fadeInStay {
+    0% { opacity: 0; transform: translateX(5px); }
+    100% { opacity: 1; transform: translateX(0); }
+}
+
+.intro-sequence span {
+    display: inline-block;
+    opacity: 0;
+    animation: scaleInFadeIn 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+
+#intro-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    transition: opacity 2s ease-out, backdrop-filter 2s ease-out;
+    --intro-duration: 9500ms;
+}
+
+#intro-overlay.hidden {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+    pointer-events: none;
+}
+
+#formula-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.formula-particle {
+    position: absolute;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 3rem;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    user-select: none;
+    will-change: transform, opacity;
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+}
+
+#intro-text {
+    font-family: var(--font-family-intro);
+    font-weight: 700;
+    font-size: clamp(2.5rem, 8vw, 6rem);
+    text-align: center;
+    z-index: 10;
+    position: relative;
+    transition: opacity 1.5s ease-out;
+}
+
+#intro-text span {
+    display: inline-block;
+    opacity: 0;
+    color: #e8eaf6;
+    text-shadow: 0 0 8px rgba(232, 234, 246, 0.5), 0 0 20px rgba(92, 107, 192, 0.5);
+    animation: scaleInFadeIn 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes scaleInFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/*
+==========================================================================
+ HERO SECTION STYLES
+==========================================================================
+*/
+.hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, #ffffff 0%, #bbdefb 100%);
+    z-index: -2;
+}
+
+.about-me::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, #bbdefb 0%, #ffffff 100%);
+    z-index: -2;
+}
+
+@keyframes gradientAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+#particle-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.hero-content {
+    padding: 1rem;
+    opacity: 0;
+    animation: fadeInContent 1.5s ease forwards;
+    animation-delay: var(--intro-duration, 6000ms);
+}
+
+@keyframes fadeInContent {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hero-headline {
+    font-size: var(--font-size-h1);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--color-text-main);
+}
+
+.typewriter-cursor {
+    display: inline-block;
+    width: 3px;
+    height: 4.5rem;
+    background-color: var(--color-text-accent);
+    animation: blink 0.7s infinite;
+    vertical-align: bottom;
+    margin-left: 0.5rem;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.hero-subheadline {
+    /* Reduced from 1.5rem to 1.15rem for a more professional, sleek look */
+    font-size: 1.15rem; 
+    font-weight: 400;
+    color: #1976d2;
+    text-shadow: 0 0 6px rgba(25, 118, 210, 0.4);
+    
+    /* Layout improvements for wide screens */
+    max-width: 700px;
+    margin: 0.5rem auto 0 auto;
+    line-height: 1.6;
+    opacity: 0.9;
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+    animation: pulse 2s infinite;
+}
+
+.scroll-indicator a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    border: 2px solid #0165FC;
+    border-radius: 50%;
+    color: #0165FC;
+    text-decoration: none;
+    transition: transform 0.3s ease;
+    box-shadow: 0 0 10px #0165FC, 0 0 20px #0165FC;
+    background-color: var(--color-tertiary);
+    z-index: 10;
+}
+
+.scroll-indicator a:hover {
+    transform: scale(1.1);
+}
+
+.scroll-indicator svg {
+    width: 24px;
+    height: 24px;
+}
+
+@keyframes pulse {
+    0% {
+        transform: translateX(-50%) scale(1);
+        box-shadow: 0 0 0 0 rgba(1, 101, 252, 0.7);
+    }
+    70% {
+        transform: translateX(-50%) scale(1);
+        box-shadow: 0 0 0 15px rgba(1, 101, 252, 0);
+    }
+    100% {
+        transform: translateX(-50%) scale(1);
+        box-shadow: 0 0 0 0 rgba(1, 101, 252, 0);
+    }
+}
+
+/*
+==========================================================================
+ ABOUT ME SECTION STYLES
+==========================================================================
+*/
+.about-me {
+    padding: 6rem 2rem;
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    overflow: visible; /* Now the section stretches with the Vault */
+}
+
+ #background-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; /* Force it to follow the parent's full height */
+    z-index: -1;
+    pointer-events: none;
+}
+
+.about-me-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    color: #1976d2;
+    text-shadow: 0 0 6px rgba(25, 118, 210, 0.5);
+}
+
+.bio-text {
+    font-size: 1.2rem;
+    max-width: 800px;
+    margin: 0 auto 3rem auto;
+    line-height: 1.8;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s;
+}
+
+.more-info-toggle,
+.download-resume-btn {
+    border: 2px solid #1976d2;
+    color: #1976d2;
+    text-decoration: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    background-color: var(--color-tertiary);
+    z-index: 10;
+    position: relative;
+    transition: all 0.3s ease; 
+}
+
+
+.more-info-toggle:hover,
+.download-resume-btn:hover {
+    color: #000000;
+    border-color: transparent;
+    box-shadow: 0 0 10px rgba(25, 118, 210, 0.7), 0 0 20px rgba(25, 118, 210, 0.5);
+}
+
+.more-info-content {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.9s ease-in-out, opacity 0.7s ease-in-out;
+    text-align: left;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.more-info-content.expanded {
+    /* Increased from 1000px to 2000px to account for mobile text wrapping */
+    max-height: 2000px; 
+    opacity: 1;
+}
+
+.timeline {
+    position: relative;
+    padding: 2rem 0;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: #90caf9;
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 50px;
+    margin-bottom: 2rem;
+}
+
+.timeline-item:last-child {
+    margin-bottom: 0;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: 12px;
+    top: 5px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: #1976d2;
+    border: 3px solid #ffffff;
+}
+
+.timeline-date {
+    font-weight: 700;
+    color: #1976d2;
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.timeline-title {
+    font-weight: 700;
+    color: var(--color-text-accent);
+    margin-bottom: 0.5rem;
+}
+
+.timeline-description {
+    color: var(--color-text-main);
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+}
+
+.download-resume-btn {
+    display: inline-block;
+    padding: 1rem 2rem;
+    margin-bottom: 0;
+}
+
+.project-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.project-card {
+    border: 1px solid var(--color-card-border);
+    border-radius: 12px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.25s ease, box-shadow 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    min-height: 380px;
+}
+
+.project-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 10%, rgba(0, 0, 0, 0.2) 60%);
+    z-index: 1;
+    transition: background 0.4s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 0 10px rgba(25, 118, 210, 0.7), 0 0 20px rgba(25, 118, 210, 0.5);
+}
+
+.project-card:hover::before {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 10%, rgba(0, 0, 0, 0.1) 60%);
+}
+
+.project-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    color: #ffffff;
+}
+
+.project-content h3,
+.project-content p {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.project-content h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    word-break: normal;
+    overflow-wrap: break-word;
+}
+
+.project-content p {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    text-wrap: balance;
+}
+
+.project-card.has-details .project-content h3 {
+    margin-bottom: 2rem;
+}
+.project-card.has-details .project-content p {
+    margin-bottom: 2rem;
+}
+.project-card.has-details .tech-stack {
+    margin-bottom: 2rem;
+}
+
+.tech-stack {
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+.tech-stack::-webkit-scrollbar {
+    display: none;
+}
+
+.tech-tag {
+    background-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(4px);
+    color: #ffffff;
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.project-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: auto;
+}
+
+.project-btn {
+    flex-grow: 1;
+    max-width: 150px;
+    text-align: center;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(4px);
+}
+
+.project-btn:hover {
+    background-color: #ffffff;
+    color: #000000;
+    border-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 10px rgba(25, 118, 210, 0.7), 0 0 20px rgba(25, 118, 210, 0.5);
+}
+
+.project-card--placeholder {
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(8px);
+}
+.project-card--placeholder::before {
+    background: none;
+}
+.project-card--placeholder .project-content {
+    color: var(--color-text-main);
+    justify-content: center;
+    align-items: center;
+}
+.project-card--placeholder .project-content p {
+    font-size: 1.4rem;
+    color: #777;
+    font-weight: 500;
+    text-shadow: none;
+}
+
+.project-card--placeholder h3 {
+    font-size: 1.8rem;
+    color: var(--color-text-accent);
+    text-shadow: none;
+    margin-bottom: 0;
+}
+
+#hidden-venture-card .bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+    z-index: 0;
+    filter: blur(8px);
+}
+#hidden-venture-card:hover .bg-image {
+    opacity: 1;
+}
+
+.section-title span,
+.project-content h3 span {
+    display: inline-block;
+    transition: color 0.3s ease-in-out;
+}
+
+.about-me.visible .section-title,
+.about-me.visible .bio-text,
+.about-me.visible .project-card {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.about-me.visible .project-card:nth-child(1) {
+    transition-delay: 0.3s;
+}
+.about-me.visible .project-card:nth-child(2) {
+    transition-delay: 0.4s;
+}
+.about-me.visible .project-card:nth-child(3) {
+    transition-delay: 0.5s;
+}
+.about-me.visible .project-card:nth-child(4) {
+    transition-delay: 0.6s;
+}
+
+@media (max-width: 768px) {
+    :root {
+        --font-size-h1: 2.5rem;
+        --font-size-p: 1.2rem;
+    }
+    .typewriter-cursor {
+        height: 2.5rem;
+    }
+    .formula-particle {
+        font-size: 1.8rem;
+    }
+    .section-title {
+        font-size: 2rem;
+    }
+    .bio-text {
+        font-size: 1rem;
+    }
+    .timeline::before {
+        left: 8px;
+    }
+    .timeline-item {
+        padding-left: 40px;
+    }
+    .timeline-item::before {
+        left: 0px;
+    }
+    .more-info-toggle {
+        margin-bottom: 1.5rem;
+    }
+    .action-buttons {
+        margin-top: 1.5rem;
+    }
+
+    .theme-toggle {
+        width: 35px !important;  /* Reduced from 50px */
+        height: 35px !important; /* Reduced from 50px */
+    }
+
+    /* Match Judo page icon scale */
+    .theme-toggle svg {
+        width: 16px !important;  /* Reduced from 24px */
+        height: 16px !important; /* Reduced from 24px */
+    }
+
+    /* Match Judo page menu positioning */
+    .theme-options {
+        top: 45px;    /* Adjusted for the smaller button */
+        width: 170px; /* More compact for mobile */
+    }
+}
+/* ADDED for theme toggler */
+.theme-selector-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.theme-toggle {
+    background-color: var(--color-card-bg);
+    border: 1px solid var(--color-card-border);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    backdrop-filter: blur(5px);
+    position: relative;
+    z-index: 2;
+    transition: transform 0.2s ease;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+}
+
+.theme-toggle svg {
+    width: 24px;
+    height: 24px;
+    fill: var(--color-text-accent);
+}
+
+.theme-options {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 220px;
+    background-color: var(--color-card-bg);
+    border: 1px solid var(--color-card-border);
+    border-radius: 12px;
+    padding: 0.5rem;
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.theme-options.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+.theme-option-btn {
+    background-color: transparent;
+    border: none;
+    color: var(--color-text-main);
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: var(--font-family-main);
+    font-size: 1rem;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    transition: background-color 0.2s ease;
+}
+
+.theme-option-btn:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+.theme-metallic-sky .theme-option-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.theme-swatch {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--color-card-border);
+    flex-shrink: 0;
+}
+
+/* ==========================================================================
+   FINAL PRECISION ALIGNMENT & SHADOW REFINEMENTS
+   ========================================================================== */
+
+/* Card Height & Permanent Shadow */
+.project-card {
+    min-height: 380px !important;
+    /* Adding a subtle, permanent shadow behind the borders */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 5px rgba(255, 255, 255, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Ensure content stays aligned even without the extra text */
+.project-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+}
+
+.project-links {
+    margin-top: auto;
+    padding-top: 15px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+/* Resetting the button to behave exactly like your original logic */
+.project-btn {
+    display: inline-block;
+    text-align: center;
+    /* Your 885-line CSS handles the stunning hover beauty */
+}
+
+/* Metallic Sky Theme: Adjusting the shadow to be a bit more 'blue/glowy' */
+.theme-metallic-sky .project-card {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(129, 212, 250, 0.1);
+}
+
+/* Ensure hover doesn't change button length */
+#crypto-card .project-btn:hover::after {
+    display: none;
+}
+
+
+/* ==========================================================================
+   RESUME ACTION BUTTON REFINEMENTS
+   ========================================================================== */
+
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem; /* Increased gap slightly for 4 buttons */
+    flex-wrap: wrap;
+    margin-top: 2rem;
+}
+
+/* Ensure the View button behaves exactly like the Download button */
+#view-resume-btn {
+    /* Reusing your stunning .download-resume-btn logic */
+    transition: all 0.3s ease;
+}
+
+/* Responsive fix: If screen is small, buttons stack neatly */
+@media (max-width: 600px) {
+    .action-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+}
+
+
+/* ==========================================================================
+   REFINED MULTI-LINE MINIMALIST FOOTER
+   ========================================================================== */
+.main-footer {
+    padding: 3rem 2rem;
+    position: relative;
+    z-index: 10;
+    /* Removed border-top line */
+    background: var(--color-card-bg);
+    backdrop-filter: blur(15px);
+    margin-top: 2rem;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    gap: 0.5rem; /* Reduced from 1.2rem to bring lines closer */
+}
+
+.footer-link {
+    text-decoration: none !important;
+    transition: all 0.3s ease;
+}
+
+/* Line 1: Social Icons Styling */
+.footer-socials {
+    display: flex;
+    gap: 1.5rem; /* Space between GitHub and LinkedIn icons */
+    margin-bottom: 5px; /* Extra nudge to keep icons as the focus */
+}
+
+.footer-socials .footer-link i {
+    font-size: 2rem; /* Larger icons as requested */
+    color: var(--color-text-main);
+    opacity: 0.8;
+}
+
+.footer-socials .footer-link:hover i {
+    color: var(--color-text-accent);
+    transform: translateY(-3px);
+    opacity: 1;
+}
+
+/* Line 2: Email Styling (Clean, No Bold) */
+.email-link {
+    font-family: 'Inter', sans-serif; /* Clean sans-serif font */
+    font-weight: 400; /* Normal weight, no boldness */
+    font-size: 1.1rem;
+    color: var(--color-text-main);
+    opacity: 0.9;
+    letter-spacing: 0.5px;
+}
+
+.email-link:hover {
+    color: var(--color-text-accent);
+    opacity: 1;
+}
+
+/* Line 3: Copyright Styling */
+.footer-copyright {
+    font-size: 0.85rem;
+    font-weight: 400;
+    opacity: 0.5;
+    margin-top: 0.5rem; /* Small gap before the final line */
+    color: var(--color-text-main);
+}
+
+/* Metallic Sky Refinement */
+.theme-metallic-sky .main-footer {
+    background: transparent; /* Makes it blend perfectly without lines */
+}
+
+/* Ensure mobile layout stays the same since it's already vertical */
+@media (max-width: 768px) {
+    .main-footer {
+        padding: 2rem 1rem;
+    }
+}
+
+/* ==========================================================================
+   PUBLIC VAULT - REFINED LOGIC
+   ========================================================================== */
+.public-vault-wrapper {
+    margin-top: 12rem;
+    position: relative;
+    z-index: 2;
+}
+
+.vault-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.vault-card {
+    background: var(--color-tertiary) !important; 
+    border: 1px solid var(--color-card-border);
+    border-radius: 20px;
+    padding: 3rem 2rem;
+    text-decoration: none !important;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Smoother transition */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 5;
+}
+
+.vault-card i {
+    font-size: 3.5rem;
+    color: var(--color-text-accent);
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+/* --- REFINEMENT: DISABLE HOVER POP-UP FOR SCRIPTS --- */
+#vault-scripts:hover {
+    transform: none !important; /* Stays flat on hover */
+    border-color: var(--color-light-blue-accent);
+    box-shadow: 0 0 20px rgba(129, 212, 250, 0.15); /* Subtle glow without lift */
+}
+
+/* --- REFINEMENT: POP-UP ONLY ON CLICK (ACTIVE STATE) --- */
+#vault-scripts:active {
+    transform: translateY(-8px) scale(1.02) !important; /* The "Pop" happens here */
+    box-shadow: 0 15px 30px var(--color-card-shadow);
+    transition: transform 0.1s ease; /* Faster response for click */
+}
+
+/* --- THEME SYNC: METALLIC SKY --- */
+.theme-metallic-sky #vault-scripts:hover {
+    box-shadow: 0 0 25px -5px var(--color-light-blue-accent);
+}
+
+.theme-metallic-sky .vault-card:hover i {
+    color: var(--color-light-blue-accent);
+    text-shadow: 0 0 15px var(--color-light-blue-accent);
+}
+
+/* --- LOCKED CARDS LOGIC --- */
+.vault-card--locked {
+    cursor: not-allowed;
+    opacity: 0.6;
+    filter: grayscale(1);
+    transform: none !important;
+    pointer-events: none;
+}
+
+/* General Text Styles */
+.vault-card h3 { font-size: 1.8rem; color: var(--color-text-main); margin-bottom: 1rem; }
+.vault-card p { font-size: 0.95rem; color: var(--color-text-main); opacity: 0.7; line-height: 1.6; margin-bottom: 2rem; text-align: center; }
+.vault-link-text { font-weight: 700; color: var(--color-text-accent); text-transform: uppercase; letter-spacing: 1px; font-size: 0.85rem; }
+
+/* --- MOBILE RESPONSIVENESS OVERRIDES --- */
+@media (max-width: 768px) {
+    /* Significantly raises the heading higher on the mobile screen */
+    .hero-content {
+        /* Pushing significantly higher from -35% to -55% */
+        transform: translateY(-55%); 
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 90%; 
+        margin: 0 auto;
+        /* Ensures the text doesn't feel cramped against the top */
+        padding-top: 1rem; 
+    }
+
+    .hero-headline {
+        font-size: 2.1rem; /* Slightly smaller to help the upward "lift" */
+        height: 5.5rem;    /* Reduced height box to bring description closer */
+        line-height: 1.2;
+        margin-bottom: 0.2rem; /* Minimal gap for maximum upward pull */
+        display: flex;
+        align-items: center; 
+        justify-content: center;
+        text-align: center;
+    }
+
+    .hero-subheadline {
+        font-size: 0.95rem; 
+        line-height: 1.4;
+        /* INCREASED WIDTH: Changed from 80% to 92% to pull text to the sides */
+        width: 92%;
+        max-width: 500px; /* High enough to stay out of the way on most phones */
+        margin: 0 auto;
+        opacity: 0.8;
+        text-align: center;
+        /* Balanced word wrapping */
+        word-spacing: -0.5px; 
+    }
+
+    /* Adjust cursor to match new headline size */
+    .typewriter-cursor {
+        height: 2.1rem;
+    }
+    /* Keeps the scroll indicator at the 5rem position you requested */
+    .scroll-indicator {
+        bottom: 5rem; 
+    }
+
+    /* 1. Reduce the "About Me" heading size */
+    .about-me .section-title {
+        font-size: 1.8rem; /* Reduced from 2rem to match the new Hero scale */
+        margin-bottom: 1.2rem;
+        letter-spacing: -0.5px;
+    }
+
+    /* 2. Refine the main bio description */
+    .about-me .bio-text {
+        font-size: 0.95rem; /* Matches the hero-subheadline size for a unified feel */
+        line-height: 1.6;    /* Keeps it readable but compact */
+        max-width: 92%;     /* Allows it to spread out like the hero text */
+        margin: 0 auto 2rem auto;
+        opacity: 0.9;
+        text-align: center;
+    }
+
+    /* 3. Tighten the overall section padding */
+    .about-me {
+        padding: 4rem 1.5rem; /* Reduced top/bottom padding for a snappier scroll */
+    }
+
+    /*Project Cards/*
+    * 1. Make the Cards Smaller: Reduced height and width */
+    .project-card {
+        /* Dropped significantly from 340px to 290px for a compact look */
+        min-height: 290px !important;
+        /* Pulls cards slightly away from the edges for a smaller appearance */
+        width: 88%;
+        margin: 0 auto 1.5rem auto; /* Centers the shrunken card */
+        
+        /* 2. Make the Corners More Rounded */
+        border-radius: 20px !important; /* Significant increase from 10px */
+        
+        /* Prevents the background gradient/image from leaking past the new curve */
+        overflow: hidden; 
+    }
+
+    /* 3. Tighten the Inner Content: Less padding keeps text from touching edges */
+    .project-content {
+        /* Reduced from 1.2rem to 1rem for maximum compactness */
+        padding: 1rem; 
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; /* Keeps Title top, Button bottom */
+    }
+
+    /* 4. Font Sizes (Keeping them exactly as you approved) */
+    .project-content h3 {
+        font-size: 1.3rem;
+        margin-bottom: 0.2rem; /* Minimum gap needed for new curve */
+    }
+
+    .project-content p {
+        font-size: 0.85rem;
+        margin-bottom: 0.5rem; /* Tightened gap before the button */
+        line-height: 1.4;
+        /* Prevent long descriptions from being cut off on smaller cards */
+        display: -webkit-box;
+        -webkit-line-clamp: 4; /* Limit to 4 lines on very small phones */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    /* 5. Scale the Button to match the smaller width */
+    .project-links {
+        padding-top: 10px; /* Minimal gap */
+    }
+
+    .project-btn {
+        /* 1. The Glassy Border: 
+           Using rgba to make the blue 'breathable' and less solid */
+        border: 1.5px solid rgba(255, 255, 255, 0.3) !important;
+        
+        /* 2. The Shining Glow:
+           This adds a soft 'aura' around the button that feels alive */
+        box-shadow: 0 0 8px rgba(25, 118, 210, 0.3), 
+                    inset 0 0 4px rgba(255, 255, 255, 0.1);
+        
+        /* 3. Material Feel */
+        background-color: rgba(255, 255, 255, 0.05) !important;
+        backdrop-filter: blur(4px);
+        
+        /* Keeping your approved sizes */
+        padding: 0.4rem 0.8rem;
+        font-size: 0.85rem;
+        max-width: 120px;
+        color: rgba(255, 255, 255, 0.9);
+        transition: all 0.3s ease; /* Ensures smooth transition to your 'extraordinary' hover */
+    }
+
+    /* Metallic Sky specific: Makes the glow match your lighter blue accent */
+    .theme-metallic-sky .project-btn {
+        border-color: rgba(129, 212, 250, 0.4) !important;
+        box-shadow: 0 0 10px rgba(129, 212, 250, 0.2);
+    }
+
+    @media (max-width: 768px) {
+    /* ... your existing hero and project card rules ... */
+
+    /* 1. Thinning the Action Buttons Outline */
+    .more-info-toggle,
+    .download-resume-btn,
+    #view-resume-btn {
+        /* Dropped from 2px to 1px for a sleeker, thinner outline */
+        border-width: 1px !important;
+        
+        /* Maintaining your approved spacing and shape */
+        padding: 0.7rem 1.2rem;
+        font-size: 0.9rem;
+        border-radius: 50px;
+        
+        /* Ensure the 'extraordinary' effects remain untouched */
+        transition: all 0.3s ease;
+    }
+
+    /* 2. Gap Adjustment for 4 Buttons */
+    .action-buttons {
+        gap: 0.8rem; /* Slightly tighter gap to keep the 'thinner' look balanced */
+        margin-top: 1.5rem;
+    }
+}
+
+    .timeline-date {
+        font-size: 0.85rem; /* Small but sharp for the dates */
+        margin-bottom: 0.2rem;
+    }
+
+    .timeline-title {
+        font-size: 1.1rem; /* Reduced from 1.3rem - keeps it a clear heading */
+        margin-bottom: 0.4rem;
+        line-height: 1.3;
+    }
+
+    .timeline-description {
+        font-size: 0.9rem; /* Perfectly matches your bio and hero subheadline */
+        line-height: 1.5;
+        opacity: 0.85;
+        margin-bottom: 1rem;
+    }
+
+    /* 2. Tighten the Timeline spacing */
+    .timeline-item {
+        padding-left: 35px; /* Reduced from 40px/50px to save horizontal space */
+        margin-bottom: 1.5rem;
+    }
+
+    /* 3. Scale the indicator dots */
+    .timeline-item::before {
+        width: 14px; /* Slightly smaller dots for a more 'engineered' look */
+        height: 14px;
+        left: 0px; 
+    }
+
+    .more-info-content.expanded {
+        /* Mobile text is long, so we give it even more room */
+        max-height: 2500px; 
+    }
+    
+    /* Ensure the container doesn't hide the 2026 content */
+    .more-info-content {
+        overflow: visible; /* Allows the content to show if it exceeds the box slightly */
+    }
+
+    .public-vault-wrapper .section-title {
+        font-size: 1.8rem !important; /* !important ensures it overrides any base style */
+        margin-bottom: 0.8rem !important;
+        text-align: center;
+        width: 100%;
+    }
+
+    /* Target the specific description inside the vault */
+    .public-vault-wrapper p {
+        font-size: 0.9rem !important;
+        line-height: 1.5 !important;
+        max-width: 85% !important;
+        margin: 0 auto 2.5rem auto !important; /* The 'auto' here fixes the right-side shift */
+        text-align: center;
+        opacity: 0.8;
+    }
+
+    /* 2. Fix the Card Alignment (Centering the Grid) */
+    .vault-grid {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Centers the cards horizontally */
+        justify-content: center;
+        width: 100%;
+        gap: 1.5rem;
+        margin: 0 auto;
+    }
+
+    .vault-card {
+        width: 90% !important; /* Sets a consistent width for mobile */
+        max-width: 350px;       /* Prevents them from getting too wide */
+        margin: 0 auto !important; /* Forces the card to stay in the center */
+        padding: 2rem 1.5rem !important;
+        border-radius: 20px !important;
+    }
+
+    /* 3. Scale the Vault Card content */
+    .vault-card i {
+        font-size: 2.8rem !important;
+    }
+
+    .vault-card h3 {
+        font-size: 1.4rem !important;
+        text-align: center;
+    }
+
+    .vault-card p {
+        font-size: 0.85rem !important;
+        margin-bottom: 1rem !important;
+    }
+
+    .email-link {
+        /* Reduced from 1.1rem to 0.9rem to match the bio/subheadline scale */
+        font-size: 0.9rem !important; 
+        letter-spacing: 0.3px;
+        opacity: 0.8;
+        display: block;
+        text-align: center;
+        width: 100%;
+        margin: 0.2rem 0;
+    }
+
+    /* 2. Refine the Footer Icons and Copyright */
+    .footer-socials .footer-link i {
+        font-size: 1.6rem; /* Slightly smaller icons for a tighter footer */
+    }
+
+    .footer-copyright {
+        font-size: 0.75rem; /* Subtle and minimalist */
+        margin-top: 0.8rem;
+    }
+
+    /* 3. Tighten the Footer Container */
+    .main-footer {
+        padding: 2rem 1.5rem; /* Reduced padding for a cleaner finish */
+    }
+}

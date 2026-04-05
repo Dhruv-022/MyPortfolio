@@ -1,0 +1,537 @@
+/* ==========================================================================
+  THEME VARIABLES (Synchronized with Main Portfolio)
+==========================================================================
+*/
+:root {
+    --color-tertiary: #ffffff;
+    --color-text-main: #212121;
+    --color-text-accent: #0d47a1; 
+    --color-card-bg: rgba(255, 255, 255, 0.5);
+    --color-card-border: rgba(0, 0, 0, 0.1);
+    --bg-gradient: linear-gradient(to bottom, #ffffff 0%, #bbdefb 100%);
+    --accent-glow: rgba(25, 118, 210, 0.2);
+    
+    --judo-accent: var(--color-text-accent);
+    --judo-glow: var(--accent-glow);
+    
+    --font-heading: 'Lora', serif;
+    --font-main: 'Inter', sans-serif;
+}
+
+body.theme-metallic-sky {
+    --color-tertiary: #000000;
+    --color-text-main: #ffffff;
+    --color-text-accent: #00e5ff; 
+    --judo-accent: #00e5ff;
+    --bg-gradient: radial-gradient(circle at center, #02050a 0%, #000000 100%); 
+    --accent-glow: rgba(0, 229, 255, 0.6); 
+    --judo-glow: rgba(0, 229, 255, 0.3);
+    --color-card-bg: rgba(0, 0, 0, 0.9);
+    --color-card-border: rgba(0, 229, 255, 0.3);
+}
+
+/* ==========================================================================
+  BASE LAYOUT
+==========================================================================
+*/
+body {
+    background: var(--bg-gradient);
+    color: var(--color-text-main);
+    font-family: var(--font-main);
+    margin: 0;
+    line-height: 1.6;
+    transition: background 0.4s ease, color 0.4s ease;
+    min-height: 100vh;
+}
+
+#judo-background-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; 
+    pointer-events: none; 
+}
+
+#judo-hero {
+    min-height: 100vh;
+    padding: 10vh 5vw;
+    /* Original clean radial glow for PC and Light Theme */
+    background: radial-gradient(circle at top right, var(--judo-glow), transparent 70%);
+    display: flex;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+}
+
+
+.judo-container {
+    max-width: 1200px; 
+    width: 100%;
+    text-align: center;
+}
+
+/* ==========================================================================
+  HEADER & TYPOGRAPHY
+==========================================================================
+*/
+.judo-header h1 {
+    font-family: var(--font-heading);
+    font-size: 4rem;
+    margin: 10px 0;
+    color: var(--color-text-main); 
+}
+
+.judo-title-main {
+    color: var(--judo-accent);
+    text-shadow: 0 0 6px var(--judo-glow);
+    transition: color 0.4s ease, text-shadow 0.4s ease;
+}
+
+body.theme-metallic-sky .judo-title-main {
+    text-shadow: 0 0 8px var(--judo-accent), 0 0 4px rgba(0, 229, 255, 0.4);
+}
+
+.judo-badge {
+    display: inline-block;
+    padding: 5px 15px;
+    border: 2px solid var(--judo-accent);
+    color: var(--judo-accent);
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    background: rgba(0, 229, 255, 0.05);
+}
+
+.judo-subtitle {
+    font-size: 1.2rem;
+    color: var(--color-text-main);
+    opacity: 1; 
+    max-width: 700px;
+    margin: 20px auto;
+}
+
+/* ==========================================================================
+  ACTION BUTTONS
+==========================================================================
+*/
+.judo-actions {
+    margin-bottom: 40px;
+}
+
+.judo-btn {
+    padding: 12px 30px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 800;
+    transition: all 0.3s ease;
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.judo-btn.primary {
+    background-color: var(--judo-accent);
+    color: var(--color-tertiary); 
+    box-shadow: 0 0 25px var(--judo-glow);
+    border: none;
+}
+
+body.theme-metallic-sky .judo-btn.primary {
+    color: #000000;
+}
+
+.judo-btn.secondary {
+    border: 2px solid var(--color-text-main);
+    color: var(--color-text-main);
+    background: transparent;
+}
+
+.judo-btn:hover {
+    transform: translateY(-5px);
+    background-color: var(--color-text-main);
+    color: var(--color-tertiary);
+    box-shadow: 0 10px 40px var(--judo-glow);
+}
+
+/* ==========================================================================
+  SMART BACK BUTTON (Centered Logic)
+==========================================================================
+*/
+.action-buttons {
+    display: none; /* Managed by Heartbeat JS */
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-top: 60px;
+    padding-bottom: 40px;
+    animation: fadeInCenter 0.6s ease forwards;
+}
+
+.back-home-btn {
+    color: var(--judo-accent);
+    text-decoration: none;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s;
+    display: inline-block;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+}
+
+.back-home-btn:hover {
+    text-shadow: 0 0 10px var(--judo-accent);
+    border-bottom: 2px solid var(--judo-accent);
+    transform: translateY(-2px);
+}
+
+@keyframes fadeInCenter {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================================================
+  FEATURE GRID
+==========================================================================
+*/
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 25px;
+    margin: 80px auto;
+    max-width: 100%; 
+    justify-content: center;
+}
+
+.feature-box {
+    padding: 35px;
+    background: var(--color-card-bg);
+    backdrop-filter: blur(15px);
+    border: 1px solid var(--color-card-border); 
+    border-radius: 24px;
+    text-align: center; 
+    transition: all 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+}
+
+.feature-box:hover {
+    border-color: var(--judo-accent);
+    box-shadow: 0 0 40px var(--judo-glow);
+    transform: scale(1.05) translateY(-10px);
+}
+
+.feature-box h3 {
+    color: var(--judo-accent);
+    margin-bottom: 15px;
+    width: 100%;
+    font-size: 1.5rem;
+    text-shadow: 0 0 10px var(--judo-glow);
+}
+
+.feature-box p {
+    font-size: 1rem;
+    color: var(--color-text-main);
+    opacity: 0.95;
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* --- THEME SELECTOR UI (Identical to Main Portfolio) --- */
+.theme-selector-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.theme-toggle {
+    background-color: var(--color-card-bg);
+    border: 1px solid var(--color-card-border);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    backdrop-filter: blur(5px);
+    position: relative;
+    z-index: 2;
+    transition: transform 0.2s ease;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+}
+
+.theme-toggle svg {
+    width: 24px;
+    height: 24px;
+    fill: var(--color-text-accent);
+}
+
+.theme-options {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 220px;
+    background-color: var(--color-card-bg);
+    border: 1px solid var(--color-card-border);
+    border-radius: 12px;
+    padding: 0.5rem;
+    backdrop-filter: blur(10px); /* The professional blur from your main page */
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95); /* The "attractive" entry animation */
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.theme-options.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+.theme-option-btn {
+    background-color: transparent;
+    border: none;
+    color: var(--color-text-main);
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: var(--font-family-main);
+    font-size: 1rem;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    transition: background-color 0.2s ease;
+}
+
+.theme-option-btn:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+body.theme-metallic-sky .theme-option-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* The color swatch logic that makes the main page look superior */
+.theme-swatch {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--color-card-border);
+    flex-shrink: 0;
+}
+
+/* ==========================================================================
+  MOBILE RESPONSIVENESS
+==========================================================================
+*/
+@media (max-width: 768px) {
+    #judo-hero {
+        padding: 20px 20px 40px 20px;
+    }
+
+    /* Main heading and badge logic */
+    .judo-header h1 {
+        font-size: 1.8rem;
+        display: flex;
+        flex-direction: column; 
+        align-items: center;
+        line-height: 1.2;
+    }
+
+    .judo-title-sub {
+        font-size: 1.3rem;
+    }
+
+    .judo-subtitle {
+        font-size: 0.9rem;
+        margin: 12px auto;
+        padding: 0 15px;
+    }
+
+    .judo-badge {
+        font-size: 0.55rem;
+        padding: 2px 8px;
+        border-width: 1px;
+    }
+
+    
+
+    body.theme-metallic-sky #judo-hero {
+        background: 
+            linear-gradient(to right, rgba(0, 0, 0, 0.7) 0%, transparent 60%),
+            radial-gradient(circle at top right, var(--judo-glow), transparent 70%);
+    }
+
+    /* Theme toggle logic */
+   .theme-toggle {
+        width: 35px;
+        height: 35px;
+    }
+
+    .theme-toggle svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    .theme-options {
+        top: 45px;
+        width: 170px;
+    }
+
+    /* Button and Actions logic */
+    .judo-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        align-items: center;
+    }
+
+    .judo-btn {
+        width: auto; 
+        min-width: 180px; 
+        max-width: 220px; 
+        padding: 10px 14px; 
+        font-size: 0.95rem; 
+        border-radius: 50px; 
+        margin: 0;
+    }
+
+    /* Feature Grid and Square Cards logic */
+    .feature-grid {
+        margin: 30px auto;
+        gap: 20px;
+        width: 100%; 
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .feature-box {
+        width: 85%; 
+        max-width: 300px;
+        min-height: 160px; 
+        display: flex;
+        flex-direction: column;
+        justify-content: center; 
+        align-items: center;
+        padding: 12px 20px; 
+        border-radius: 20px; 
+        box-sizing: border-box; 
+    }
+
+    .feature-box h3 {
+        font-size: 1.1rem;
+        margin-top: 0;
+        margin-bottom: 5px;
+        text-align: center;
+    }
+
+    .feature-box p {
+        font-size: 0.85rem;
+        line-height: 1.3;
+        text-align: center;
+        margin-bottom: 0;
+    }
+
+    /* Final section: Under the Hood adjustments */
+    .judo-tech-stack .section-title {
+        font-size: 1.45rem; /* Slightly reduced from 1.6rem as requested */
+        margin-bottom: 12px;
+    }
+
+    .judo-tech-stack .bio-text {
+        font-size: 0.85rem; /* Matches the compact feel of other descriptions */
+        line-height: 1.4;
+        padding: 0 15px;
+        margin-bottom: 15px;
+    }
+
+    .back-home-btn {
+        font-size: 0.7rem; /* Reduced for better scale */
+        letter-spacing: 0.5px;
+    }
+
+    .judo-tech-stack .action-buttons {
+        margin-top: 25px;
+        padding-bottom: 25px;
+    }
+}
+
+
+/* --- TABLET LAYOUT (Portrait & Landscape) --- */
+@media (min-width: 769px) and (max-width: 1024px) {
+    
+    /* 1. Scale the Heading and Description */
+    .judo-header h1 {
+        font-size: 3.2rem; /* Halfway between mobile and desktop */
+        line-height: 1.1;
+    }
+
+    .judo-title-sub {
+        font-size: 2.2rem;
+        display: block; /* Keeps the split look */
+    }
+
+    .judo-subtitle {
+        font-size: 1.1rem;
+        max-width: 80%; /* Wider than mobile, tighter than desktop */
+        margin: 20px auto;
+    }
+
+    /* 2. Put Buttons in a Single Line */
+    .judo-actions {
+        display: flex;
+        flex-direction: row; /* Horizontal alignment */
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .judo-btn {
+        width: auto;
+        min-width: 200px;
+        padding: 12px 25px;
+    }
+
+    /* 3. Set Feature Cards to 2 per line */
+    .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* Exactly 2 columns */
+        gap: 25px;
+        width: 90%;
+        margin: 50px auto;
+    }
+
+    .feature-box {
+        aspect-ratio: 1 / 1; /* Keeping your preferred square look */
+        padding: 25px;
+    }
+
+    /* 4. Under the Hood Section */
+    .judo-tech-stack .section-title {
+        font-size: 2rem;
+    }
+
+    .judo-tech-stack .bio-text {
+        font-size: 1rem;
+        max-width: 85%;
+    }
+}

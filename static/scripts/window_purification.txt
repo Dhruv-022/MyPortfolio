@@ -1,0 +1,43 @@
+TITLE: System Window Purifier
+TAG: 0x002
+DESC: A clean-sweep automation script that terminates all active application windows except the host.
+REQS: Python 3.10+, pip install pygetwindow
+OPER: Scans active window handles and issues close signals to non-system processes.
+PROT: 1. Install pygetwindow | 2. Run with Administrative privileges | 3. Script self-terminates upon completion.
+---
+import pygetwindow as gw
+import time
+
+def close_all_except_me():
+    # Identify the current window running this script
+    current_app = gw.getActiveWindow()
+    my_title = current_app.title if current_app else None
+    
+    # List of windows to never touch
+    ignore_list = ["Program Manager", "Start", "Taskbar", "Settings", "Microsoft Text Input Application"]
+
+    print(f"Targeting all apps except: {my_title}")
+
+    # Get all windows
+    all_windows = gw.getAllWindows()
+    
+    # First pass: Close everything else
+    for window in all_windows:
+        if window.title and window.visible:
+            # Skip system apps AND skip the script itself
+            if any(ignore in window.title for ignore in ignore_list) or window.title == my_title:
+                continue
+            
+            try:
+                window.close()
+            except:
+                pass
+
+    # Final step: Close this script's window last
+    if current_app:
+        print("Closing the script window...")
+        time.sleep(1) # Brief pause so you can see it finished
+        current_app.close()
+
+if __name__ == "__main__":
+    close_all_except_me()

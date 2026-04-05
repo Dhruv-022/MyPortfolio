@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Judo Bot | Project Showcase</title>
+    
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'theme-lucid-blue';
+            document.documentElement.classList.add(savedTheme);
+        })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=Lora:wght@700&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/judo/style.css" />
+    <style>
+        /* Ensures the background canvas stays behind the content */
+        #judo-background-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="judo-page">
+
+    <canvas id="judo-background-canvas"></canvas>
+
+    <div class="theme-selector-container">
+        <button class="theme-toggle" id="theme-toggle-btn" aria-label="Open theme selector" aria-expanded="false">
+            <svg class="icon-theme" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20ZM12 18C13.0609 18 14.0783 17.5786 14.8284 16.8284C15.5786 16.0783 16 15.0609 16 14C16 11.7909 14.2091 10 12 10V18Z"></path>
+            </svg>
+        </button>
+        <div class="theme-options" id="theme-options-menu" role="menu">
+    <button class="theme-option-btn" role="menuitem" data-theme="theme-lucid-blue">
+        <span class="theme-swatch" style="background: linear-gradient(to bottom, #ffffff, #bbdefb);"></span>
+        Lucid Blue
+    </button>
+    <button class="theme-option-btn" role="menuitem" data-theme="theme-metallic-sky">
+        <span class="theme-swatch" style="background-color: #111827;"></span>
+        Metallic Sky
+    </button>
+</div>
+    </div>
+
+    <div id="judo-hero">
+        <div class="judo-container">
+            <header class="judo-header">
+                <div class="judo-badge">PYTHON • DJANGO • SQL</div>
+                <h1>
+                    <span class="judo-title-main">JUDO:</span> 
+                    <span class="judo-title-sub">A Discord Bot</span>
+                </h1>   
+                <p class="judo-subtitle">A unique Discord utility for management, moderation, entertainment, and total server security.</p>
+                
+                <div class="judo-actions">
+                    <a href="https://discord.com/oauth2/authorize?client_id=1399230366039937104&amp;permissions=8&amp;integration_type=0&amp;scope=bot" class="judo-btn primary" target="_blank">Invite Judo</a>
+                    <a href="https://discord.gg/vSSmeJqy" class="judo-btn secondary" target="_blank">Join Support Server</a>
+                </div>
+            </header>
+
+            <section class="judo-features">
+                <div class="feature-grid">
+                    <div class="feature-box">
+                        <h3>Moderation</h3>
+                        <p>Advanced auto-mod tools and custom logging systems to keep your community clean and productive.</p>
+                    </div>
+                    <div class="feature-box">
+                        <h3>Management</h3>
+                        <p>Comprehensive server utility commands designed for high-performance server administration.</p>
+                    </div>
+                    <div class="feature-box">
+                        <h3>Entertainment</h3>
+                        <p>Interactive modules and unique entertainment features to drive engagement in your servers.</p>
+                    </div>
+                    <div class="feature-box">
+                        <h3>Security</h3>
+                        <p>Top-tier protection against raids and malicious activity, keeping your data and users safe.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="judo-tech-stack">
+                <h2 class="section-title">Under the Hood</h2>
+                <p class="bio-text">
+                    Built with <strong>Python</strong> for core logic, <strong>Django</strong> for back-end scalability, and <strong>SQL</strong> for persistent data management. Judo is engineered to be more than just a bot—it's a scalable server infrastructure.
+                </p>
+                <div class="action-buttons">
+                    <a href="javascript:void(0)" id="back-to-portfolio" class="back-home-btn">← Back to Portfolio</a>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggleButton = document.getElementById('theme-toggle-btn');
+            const themeOptionsMenu = document.getElementById('theme-options-menu');
+            const themeOptionButtons = document.querySelectorAll('.theme-option-btn');
+            
+            // --- SMART TAB & HEARTBEAT LOGIC ---
+            const backBtnContainer = document.querySelector('.action-buttons');
+            const syncChannel = new BroadcastChannel('portfolio_sync');
+            let lastHeartbeat = Date.now();
+
+            // 1. Initially hide the button for a cleaner UX
+            if (backBtnContainer) backBtnContainer.style.display = 'none';
+
+            // 2. Listen for messages from the main Portfolio tab
+            syncChannel.onmessage = (event) => {
+                if (event.data === 'PORTFOLIO_IS_OPEN') {
+                    lastHeartbeat = Date.now();
+                    // If main tab exists, hide this button
+                    if (backBtnContainer) backBtnContainer.style.display = 'none';
+                }
+            };
+
+            // 3. Monitor heartbeat: if main tab is closed, show button after 2 seconds
+            setInterval(() => {
+                if (Date.now() - lastHeartbeat > 2000) {
+                    if (backBtnContainer) {
+                        backBtnContainer.style.display = 'flex';
+                        // Ensure the link leads to the root portfolio path
+                        const backLink = document.getElementById('back-to-portfolio');
+                        if (backLink) backLink.setAttribute('href', '../../index.html');
+                    }
+                }
+            }, 1000);
+
+            // 4. Initial shout-out to see if main tab is already there
+            syncChannel.postMessage('ARE_YOU_OPEN');
+
+            // --- Constellation Canvas Background Logic ---
+            const canvas = document.getElementById('judo-background-canvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            let animationFrameId;
+
+            const getThemeColor = (variable) => getComputedStyle(document.body).getPropertyValue(variable).trim();
+
+            class Particle {
+                constructor(x, y, size, color) {
+                    this.x = x; this.y = y; this.size = size; this.color = color;
+                    this.vx = (Math.random() - 0.5) * 0.5;
+                    this.vy = (Math.random() - 0.5) * 0.5;
+                }
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fillStyle = this.color;
+                    ctx.fill();
+                }
+                update() {
+                    this.x += this.vx; this.y += this.vy;
+                    if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                    if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+                    this.draw();
+                }
+            }
+
+            function initCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                particles = [];
+                const particleColor = getThemeColor('--judo-accent');
+                const numberOfParticles = (canvas.width * canvas.height) / 15000;
+                for (let i = 0; i < numberOfParticles; i++) {
+                    const size = Math.random() * 2 + 1;
+                    const x = Math.random() * canvas.width;
+                    const y = Math.random() * canvas.height;
+                    particles.push(new Particle(x, y, size, particleColor));
+                }
+            }
+
+            function connectParticles() {
+                const lineColor = getThemeColor('--judo-glow');
+                for (let a = 0; a < particles.length; a++) {
+                    for (let b = a + 1; b < particles.length; b++) {
+                        const dx = particles[a].x - particles[b].x;
+                        const dy = particles[a].y - particles[b].y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        if (distance < 150) {
+                            ctx.strokeStyle = lineColor;
+                            ctx.lineWidth = 1 - (distance / 150);
+                            ctx.beginPath();
+                            ctx.moveTo(particles[a].x, particles[a].y);
+                            ctx.lineTo(particles[b].x, particles[b].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                connectParticles();
+                particles.forEach(p => p.update());
+                animationFrameId = requestAnimationFrame(animate);
+            }
+
+            function startAnimation() {
+                if (animationFrameId) cancelAnimationFrame(animationFrameId);
+                initCanvas();
+                animate();
+            }
+
+            // --- Theme Switcher Logic ---
+            function applyTheme(themeName) {
+                document.body.classList.remove('theme-lucid-blue', 'theme-metallic-sky');
+                document.documentElement.classList.remove('theme-lucid-blue', 'theme-metallic-sky');
+                document.body.classList.add(themeName);
+                document.documentElement.classList.add(themeName);
+                localStorage.setItem('theme', themeName);
+                setTimeout(startAnimation, 100);
+            }
+
+            themeToggleButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const isVisible = themeOptionsMenu.classList.contains('visible');
+                themeOptionsMenu.classList.toggle('visible');
+                themeToggleButton.setAttribute('aria-expanded', !isVisible);
+            });
+
+            themeOptionButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const selectedTheme = button.dataset.theme;
+                    applyTheme(selectedTheme);
+                    themeOptionsMenu.classList.remove('visible');
+                    themeToggleButton.setAttribute('aria-expanded', 'false');
+                });
+            });
+
+            window.addEventListener('click', () => {
+                themeOptionsMenu.classList.remove('visible');
+                themeToggleButton.setAttribute('aria-expanded', 'false');
+            });
+
+            window.addEventListener('resize', startAnimation);
+
+            const savedTheme = localStorage.getItem('theme') || 'theme-lucid-blue';
+            applyTheme(savedTheme);
+            startAnimation();
+        });
+    </script>
+</body>
+
+</html>
