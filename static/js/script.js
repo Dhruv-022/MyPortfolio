@@ -539,3 +539,92 @@ portfolioChannel.onmessage = (event) => {
     }
 };
 setInterval(() => portfolioChannel.postMessage('PORTFOLIO_IS_OPEN'), 1000);
+
+/*
+==========================================================================
+ VISITOR COUNTER LOGIC (DJANGO BACKEND)
+==========================================================================
+*/
+
+// Helper to get the CSRF token from cookies
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+/* static/js/script.js */
+
+async function initVisitorCounter() {
+    const counterEl = document.getElementById('visitor-info');
+    if (!counterEl) return;
+
+    // Check if user has already been counted in this session
+    const isAlreadyCounted = sessionStorage.getItem('counted_in_session');
+    
+    // Choose the endpoint: POST to increment for new session, GET for refresh
+    const endpoint = isAlreadyCounted ? '/api/get-count/' : '/api/log-visit/';
+    const method = isAlreadyCounted ? 'GET' : 'POST';
+
+    try {
+        const fetchOptions = {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        };
+
+        // Only add CSRF token for POST requests
+        if (method === 'POST') {
+            fetchOptions.headers['X-CSRFToken'] = getCookie('csrftoken');
+        }
+
+        const response = await fetch(endpoint, fetchOptions);
+        
+        if (!response.ok) throw new Error('Analytics Connection Failed');
+        
+        const data = await response.json();
+        
+        // Removed the "V" prefix as requested
+        counterEl.innerText = data.count; 
+        
+        // Mark as counted so subsequent refreshes use GET
+        if (!isAlreadyCounted) {
+            sessionStorage.setItem('counted_in_session', 'true');
+        }
+        
+    } catch (e) {
+        console.error("Nexus Analytics Error:", e);
+        counterEl.innerText = "OFFLINE"; 
+    }
+}
+
+// Single listener to start the counter
+document.addEventListener('DOMContentLoaded', initVisitorCounter);
+
+const vBtn = document.getElementById('visitor-btn');
+const vCard = document.getElementById('visitor-card');
+
+// Toggle the card when clicking the circle
+vBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    vCard.classList.toggle('active');
+});
+
+// Close card if clicking outside
+document.addEventListener('click', () => vCard.classList.remove('active'));
+
+// Update your fetch success logic to target the span inside the card
+// .then(data => {
+//    document.getElementById('visitor-info').innerText = `V ${data.count}`;
+// }) 
