@@ -68,7 +68,7 @@ def log_visit(request):
     location = str(location)[:200]
 
     # 3. Discord notification
-    webhook_url = "https://discord.com/api/webhooks/YOUR_REAL_WEBHOOK_URL"
+    webhook_url = "https://discord.com/api/webhooks/1471824299534061761/ZOv0jd4_KiMBddhB1urOOD0hjA8sHKztkSqGR77zwShaFSzT80HxZaeEABpqWnq1pOXl"
 
     payload = {
         "embeds": [
