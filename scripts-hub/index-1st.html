@@ -1,0 +1,503 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scripts Hub // Dhruv</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+    <link href="../../cdn.jsdelivr.net/npm/remixicon%404.2.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg: #000000;
+            --surface: #111111;
+            --border: #333333;
+            --accent: #ffffff;
+            --text-main: #ededed;
+            --text-muted: #888888;
+            --color-particle: rgba(255, 255, 255, 0.3);
+            --color-particle-line: rgba(25, 118, 210, 0.15);
+        }
+
+        body.light-theme {
+            --bg: #ffffff;
+            --surface: #fafafa;
+            --border: #eaeaea;
+            --accent: #000000;
+            --text-main: #171717;
+            --text-muted: #666666;
+            --color-particle: rgba(0, 0, 0, 0.1);
+        }
+
+        html { scrollbar-gutter: stable; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 40px 10% 80px 10%;
+            transition: background 0.2s ease;
+        }
+
+        header {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 24px;
+            margin-top: -10px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        h1 { font-family: 'Book Antiqua', serif; font-size: 2.5rem; margin: 0; font-weight: 400; }
+
+        .subtitle {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 8px;
+            text-transform: uppercase;
+        }
+
+        .script-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 32px;
+            border-radius: 8px 8px 0 8px; 
+            transition: border-color 0.2s ease, transform 0.2s ease;
+            cursor: pointer;
+            position: relative;
+            backface-visibility: hidden;
+            transform: translateZ(0);
+            overflow: visible; 
+        }
+
+
+        .scripts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 24px;
+        }
+
+       @media (max-width: 600px) {
+    body {
+        padding: 24px 12px 48px 12px;
+    }
+
+    h1 { 
+        font-size: 1.25rem; 
+        line-height: 1.1;
+        margin-top: 45px;
+        margin-bottom: 2px;
+    }
+
+    .subtitle {
+        font-size: 0.55rem;
+        margin-top: 4px;
+    }
+
+    .scripts-grid {
+        grid-template-columns: 1fr;
+        justify-items: start;
+        gap: 20px; /* Increased gap to make room for the arrow tab below */
+    }
+
+    .script-card {
+        width: 85%; 
+        padding: 6px 14px; /* Reduced vertical padding further */
+        min-height: 55px; /* Shaved off more height for a tighter rectangle */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-left: 0;
+        margin-right: auto;
+        border-radius: 3px 3px 0 3px; 
+        overflow: visible; 
+        position: relative;
+    }
+
+    /* Smaller card title */
+    .script-card h2 {
+        font-size: 0.75rem; /* Reduced from 0.85rem */
+        margin: 0;
+        letter-spacing: 0.2px;
+    }
+
+    /* Smaller tag */
+    .tag {
+        font-size: 0.45rem;
+        padding: 1px 3px;
+    }
+
+    /* Smaller description text */
+    .script-card > p {
+        font-size: 0.6rem; /* Reduced from 0.65rem */
+        line-height: 1.1;
+        margin-top: 1px;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden; 
+        opacity: 0.8;
+    }
+
+    /* Adjust the mini-square arrow to match the smaller text */
+    .script-card::after {
+        content: "▼";
+        position: absolute;
+        bottom: -14px; 
+        right: -1px; 
+        width: 26px; /* Slightly narrower */
+        height: 14px; 
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-top: none; 
+        border-radius: 0 0 3px 3px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.5rem;
+        color: var(--text-muted);
+        z-index: 10;
+    }
+
+    /* Tighter spacing for the expanded content drawer */
+    .script-card.active .content-drawer {
+        margin-top: 10px;
+        padding-top: 10px;
+    }
+
+    .meta-item p {
+        font-size: 0.65rem;
+    }
+
+    h4 {
+        font-size: 0.55rem;
+    }
+
+    .btn {
+        padding: 6px 10px;
+        font-size: 0.65rem;
+    }
+}
+        
+        /* --- Individual Card Canvas --- */
+        .card-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0; /* Behind text but above surface */
+            pointer-events: none;
+            border-radius: inherit;
+        }
+
+        .card-header, .script-card > p, .content-drawer {
+            position: relative;
+            z-index: 1; /* Content above particles */
+        }
+
+        .script-card::after {
+            content: "▼";
+            position: absolute;
+            bottom: -21px; 
+            right: -1px; 
+            width: 40px;
+            height: 21px; 
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-top: none; 
+            border-radius: 0 0 6px 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s ease, border-color 0.2s ease;
+            z-index: 10; 
+        }
+
+        .script-card::before {
+            content: "";
+            position: absolute;
+            bottom: -1px;
+            right: 0;
+            width: 38px;
+            height: 3px;
+            background: var(--surface);
+            z-index: 11; 
+        }
+
+        .script-card.active::after { transform: rotate(180deg); color: var(--text-main); }
+        .script-card:hover, .script-card.active { border-color: var(--text-muted); }
+        .script-card:hover::after, .script-card.active::after { border-color: var(--text-muted); }
+
+        .tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            background: var(--border);
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .content-drawer {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.35s cubic-bezier(0, 1, 0, 1), opacity 0.2s ease;
+            margin-top: 0;
+        }
+
+        .script-card.active .content-drawer {
+            max-height: 1200px; 
+            opacity: 1;
+            margin-top: 32px;
+            padding-top: 32px;
+            border-top: 1px solid var(--border);
+            transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease-in;
+        }
+
+        .meta-group { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px; }
+        h4 { font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); margin: 0 0 8px 0; }
+        p { font-size: 0.95rem; margin: 0; }
+
+        .btn {
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            padding: 12px 20px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            transition: opacity 0.2s ease;
+        }
+
+        .btn:hover { opacity: 0.9; }
+        .btn:disabled { opacity: 0.7; cursor: not-allowed; }
+
+        .protocol-box {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            padding: 20px;
+            margin-top: 24px;
+            border-radius: 6px;
+        }
+
+        .protocol-box ol { margin: 0; padding-left: 20px; font-size: 0.85rem; color: var(--text-muted); }
+
+        .theme-toggle {
+            position: fixed; top: 30px; right: 30px;
+            background: none; border: 1px solid var(--border);
+            color: var(--text-main); padding: 8px; cursor: pointer;
+            border-radius: 6px;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" onclick="document.body.classList.toggle('light-theme')">
+        <i class="ri-contrast-2-line"></i>
+    </button>
+
+    <header>
+        <h1>Scripts Hub</h1>
+        <div class="subtitle">System Automation & Logic Archive // v1.0.2</div>
+    </header>
+
+    <div class="scripts-grid">
+        <div class="script-card" onclick="if(!this.dataset.animating) { 
+            this.classList.toggle('active'); 
+            this.dataset.animating = 'true'; 
+            setTimeout(() => delete this.dataset.animating, 400); 
+        }">
+            <canvas class="card-particles"></canvas>
+
+            <div class="card-header">
+                <div>
+                    <h2 style="margin:0; font-size: 1.25rem;">Vocal Greeting System</h2>
+                    <span class="tag">0x001</span>
+                </div>
+            </div>
+            
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                A temporal logic bridge for automated speech synthesis.
+            </p>
+
+            <div class="content-drawer" onclick="event.stopPropagation()">
+                <div class="meta-group">
+                    <div class="meta-item">
+                        <h4>Requirements</h4>
+                        <p>Python 3.10+<br><code>pip install pyttsx3</code></p>
+                    </div>
+                    <div class="meta-item">
+                        <h4>Operation</h4>
+                        <p>Synchronous OS level audio output based on 24h clock cycles.</p>
+                    </div>
+                </div>
+
+                <button class="btn" data-source="/static/scripts/script_vocal_greeting.txt" onclick="copySource(this.getAttribute('data-source'), this)">
+                    Copy Source Code
+                </button>
+
+                <div class="protocol-box">
+                    <h4>Execution Protocol</h4>
+                    <ol>
+                        <li>Save source to a <code>.py</code> file.</li>
+                        <li>Install necessary dependencies.</li>
+                        <li>Initialize via terminal.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const JS_CONFIG = {
+            PARTICLE_COUNT: 25, /* Reduced count per card for performance */
+            CONNECTION_DISTANCE: 70,
+            MOUSE_REPULSION_RADIUS: 80
+        };
+
+        class CardParticleSystem {
+            constructor(canvas) {
+                this.canvas = canvas;
+                this.ctx = canvas.getContext('2d');
+                this.particles = [];
+                this.mouse = { x: null, y: null };
+                this.parent = canvas.parentElement;
+
+                this.init();
+                this.animate();
+
+                // Mouse events relative to the card
+                this.parent.addEventListener('mousemove', (e) => {
+                    const rect = this.parent.getBoundingClientRect();
+                    this.mouse.x = e.clientX - rect.left;
+                    this.mouse.y = e.clientY - rect.top;
+                });
+                this.parent.addEventListener('mouseleave', () => {
+                    this.mouse.x = null;
+                    this.mouse.y = null;
+                });
+                
+                // Watch for card expansion to resize canvas
+                const observer = new ResizeObserver(() => this.resize());
+                observer.observe(this.parent);
+            }
+
+            resize() {
+                this.canvas.width = this.parent.offsetWidth;
+                this.canvas.height = this.parent.offsetHeight;
+                this.initParticles();
+            }
+
+            init() {
+                this.resize();
+            }
+
+            initParticles() {
+                this.particles = [];
+                for (let i = 0; i < JS_CONFIG.PARTICLE_COUNT; i++) {
+                    let size = (Math.random() * 1.5) + 0.5;
+                    let x = Math.random() * this.canvas.width;
+                    let y = Math.random() * this.canvas.height;
+                    let dirX = (Math.random() * 0.3) - 0.15;
+                    let dirY = (Math.random() * 0.3) - 0.15;
+                    this.particles.push({ x, y, dirX, dirY, size });
+                }
+            }
+
+            draw() {
+                const particleColor = getComputedStyle(document.documentElement).getPropertyValue('--color-particle').trim();
+                const lineColor = getComputedStyle(document.documentElement).getPropertyValue('--color-particle-line').trim();
+                const colorParts = lineColor.match(/[\d\.]+/g);
+
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+                for (let i = 0; i < this.particles.length; i++) {
+                    let p = this.particles[i];
+
+                    // Movement
+                    if (this.mouse.x && this.mouse.y) {
+                        let dx = this.mouse.x - p.x;
+                        let dy = this.mouse.y - p.y;
+                        let distance = Math.sqrt(dx * dx + dy * dy);
+                        if (distance < JS_CONFIG.MOUSE_REPULSION_RADIUS) {
+                            p.x -= dx / 50;
+                            p.y -= dy / 50;
+                        }
+                    }
+                    
+                    p.x += p.dirX;
+                    p.y += p.dirY;
+
+                    // Bounds check
+                    if (p.x > this.canvas.width || p.x < 0) p.dirX *= -1;
+                    if (p.y > this.canvas.height || p.y < 0) p.dirY *= -1;
+
+                    // Draw Particle
+                    this.ctx.beginPath();
+                    this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    this.ctx.fillStyle = particleColor;
+                    this.ctx.fill();
+
+                    // Connect
+                    for (let j = i; j < this.particles.length; j++) {
+                        let p2 = this.particles[j];
+                        let dist = Math.sqrt((p.x - p2.x)**2 + (p.y - p2.y)**2);
+                        if (dist < JS_CONFIG.CONNECTION_DISTANCE) {
+                            let opacity = 1 - (dist / JS_CONFIG.CONNECTION_DISTANCE);
+                            this.ctx.strokeStyle = `rgba(${colorParts[0]}, ${colorParts[1]}, ${colorParts[2]}, ${opacity * 0.3})`;
+                            this.ctx.lineWidth = 0.5;
+                            this.ctx.beginPath();
+                            this.ctx.moveTo(p.x, p.y);
+                            this.ctx.lineTo(p2.x, p2.y);
+                            this.ctx.stroke();
+                        }
+                    }
+                }
+            }
+
+            animate() {
+                this.draw();
+                requestAnimationFrame(() => this.animate());
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const canvases = document.querySelectorAll('.card-particles');
+            canvases.forEach(canvas => new CardParticleSystem(canvas));
+        });
+
+        async function copySource(url, btn) {
+            const original = "Copy Source Code";
+            try {
+                btn.innerText = "Copying...";
+                btn.disabled = true;
+                const response = await fetch(url);
+                const code = await response.text();
+                await navigator.clipboard.writeText(code);
+                btn.innerText = "Code Copied!";
+                setTimeout(() => {
+                    btn.innerText = original;
+                    btn.disabled = false;
+                }, 4000);
+            } catch (err) {
+                btn.innerText = "Error Fetching Source";
+                setTimeout(() => {
+                    btn.innerText = original;
+                    btn.disabled = false;
+                }, 3000);
+            }
+        }
+    </script>
+</body>
+
+</html>
