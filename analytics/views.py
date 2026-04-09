@@ -59,7 +59,7 @@ def log_visit(request):
     except Exception as e:
         print(f"Geo lookup error: {e}")
 
-    webhook_url = "YOUR_DISCORD_WEBHOOK_URL"
+    webhook_url = "https://discord.com/api/webhooks/1471824299534061761/ZOv0jd4_KiMBddhB1urOOD0hjA8sHKztkSqGR77zwShaFSzT80HxZaeEABpqWnq1pOXl"
 
     fields = [
         {
