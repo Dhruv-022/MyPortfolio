@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
 from .models import VisitorStats
 from django.shortcuts import render
+from user_agents import parse
 
 def get_visitor_count(request):
     # Retrieve the stats without incrementing
@@ -12,31 +13,42 @@ def get_visitor_count(request):
 @ensure_csrf_cookie
 def log_visit(request):
     if request.method == "POST":
-        # 1. Increment the count in the database
-        # We use id=1 to always update the same single row
         stats, created = VisitorStats.objects.get_or_create(id=1)
         stats.total_visits += 1
         stats.save()
 
-        # 2. Capture Visitor Metadata
-        # Gets IP even if behind the Google Cloud proxy
+        # 1. Capture Metadata
         ip = request.META.get('HTTP_X_FORWARDED_FOR', request.META.get('REMOTE_ADDR'))
-        user_agent = request.META.get('HTTP_USER_AGENT', 'unknown')
+        user_agent_raw = request.META.get('HTTP_USER_AGENT', '')
+        user_agent = parse(user_agent_raw)
         referrer = request.META.get('HTTP_REFERER', 'Direct/Unknown')
 
-        # 3. Discord Notification
-        webhook_url = "https://discord.com/api/webhooks/1471824299534061761/ZOv0jd4_KiMBddhB1urOOD0hjA8sHKztkSqGR77zwShaFSzT80HxZaeEABpqWnq1pOXl"
+        # 2. Get Location via IP-API (Free)
+        location = "Unknown"
+        try:
+            # Use 127.0.0.1 for testing, but in production 'ip' will be real
+            geo_res = requests.get(f'http://ip-api.com/json/{ip}').json()
+            if geo_res.get('status') == 'success':
+                location = f"{geo_res.get('city')}, {geo_res.get('country')}"
+        except:
+            pass
+
+        # 3. Refined Discord Notification
+        webhook_url = "https://discord.com/api/webhooks/..."
         
         payload = {
             "embeds": [{
                 "title": "🚀 New Portfolio Visit",
-                "description": f"Total Visits: **{stats.total_visits}**",
-                "color": 5814783,
+                "color": 16753920, # Lucid Blue-ish Orange or your preferred hex
                 "fields": [
+                    {"name": "Total Visits", "value": str(stats.total_visits), "inline": False},
                     {"name": "IP Address", "value": ip, "inline": True},
-                    {"name": "Referrer", "value": referrer, "inline": True},
-                    {"name": "User Agent", "value": user_agent[:100] + "..." if len(user_agent) > 100 else user_agent}
-                ]
+                    {"name": "Location", "value": location, "inline": True},
+                    {"name": "Referrer", "value": referrer, "inline": False},
+                    {"name": "Browser", "value": f"{user_agent.browser.family} {user_agent.browser.version_string}", "inline": True},
+                    {"name": "OS", "value": f"{user_agent.os.family} {user_agent.os.version_string}", "inline": True},
+                ],
+                "footer": {"text": "Nexus Analytics Engine"}
             }]
         }
 
@@ -48,7 +60,6 @@ def log_visit(request):
         return JsonResponse({"count": stats.total_visits})
     
     return JsonResponse({"error": "Method not allowed"}, status=405)
-
 
 @ensure_csrf_cookie # This is the "Key" that opens the door
 def home(request):
