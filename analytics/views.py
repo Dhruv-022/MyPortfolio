@@ -126,3 +126,7 @@ def log_visit(request):
         print(f"Discord error: {e}")
 
     return JsonResponse({"count": stats.total_visits})
+
+@ensure_csrf_cookie # This is the "Key" that opens the door
+def home(request):
+    return render(request, 'index.html')
