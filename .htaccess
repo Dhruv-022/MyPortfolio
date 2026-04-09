@@ -1,2 +1,0 @@
-RewriteEngine On
-RewriteRule ^api/contact$ api/contact.php [L,QSA]
