@@ -621,6 +621,97 @@ vBtn.addEventListener('click', (e) => {
     vCard.classList.toggle('active');
 });
 
+
+async function logVisit() {
+  let clientData = {
+    browser: "Unknown",
+    browser_version: "",
+    os: "Unknown",
+    os_version: "",
+    device_type: "Desktop",
+    raw_user_agent: navigator.userAgent || ""
+  };
+
+  try {
+    if (navigator.userAgentData) {
+      const ua = navigator.userAgentData;
+      const high = await ua.getHighEntropyValues([
+        "platformVersion",
+        "fullVersionList",
+        "architecture",
+        "bitness",
+        "model"
+      ]);
+
+      if (ua.mobile) {
+        clientData.device_type = "Mobile";
+      }
+
+      if (ua.platform) {
+        clientData.os = ua.platform;
+      }
+
+      if (ua.platform === "Windows" && high.platformVersion) {
+        const major = parseInt(high.platformVersion.split(".")[0], 10);
+        if (!isNaN(major)) {
+          if (major >= 13) {
+            clientData.os_version = "11";
+          } else if (major > 0) {
+            clientData.os_version = "10";
+          }
+        }
+      }
+
+      const brands = high.fullVersionList || ua.brands || [];
+      const filtered = brands.filter(
+        b => b.brand && !b.brand.includes("Not;A Brand")
+      );
+
+      if (filtered.length) {
+        const preferredOrder = [
+          "Comet",
+          "Microsoft Edge",
+          "Google Chrome",
+          "Chromium",
+          "Opera",
+          "Brave"
+        ];
+
+        let selected = null;
+        for (const name of preferredOrder) {
+          selected = filtered.find(b => b.brand === name);
+          if (selected) break;
+        }
+
+        if (!selected) {
+          selected = filtered[0];
+        }
+
+        clientData.browser = selected.brand || "Unknown";
+        clientData.browser_version = selected.version || "";
+      }
+    }
+  } catch (err) {
+    console.error("UA-CH detection failed:", err);
+  }
+
+  try {
+    await fetch("/analytics/log-visit/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(clientData)
+    });
+  } catch (err) {
+    console.error("Visit logging failed:", err);
+  }
+}
+
+window.addEventListener("load", () => {
+  logVisit();
+});
+
 // Close card if clicking outside
 document.addEventListener('click', () => vCard.classList.remove('active'));
 
