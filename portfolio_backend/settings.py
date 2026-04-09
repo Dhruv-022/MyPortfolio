@@ -34,8 +34,8 @@ ALLOWED_HOSTS = [
     'www.dhruvvaishnav.in',
 ]
 CSRF_TRUSTED_ORIGINS = [
-    "https://yourdomain.com",
-    "https://www.yourdomain.com",
+    "https://dhruvvaishnav.in",
+    "https://www.dhruvvaishnav.com",
 ]
 
 # Application definition
