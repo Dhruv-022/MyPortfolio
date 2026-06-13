@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-&7y(=dq9er#6hpp^o(^h6069!0=yx7&fuhjlw$a(l#a(%4hb!w
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '34.14.203.66',
+    '34.100.226.176',
     '127.0.0.1',
     'localhost',
     'dhruvvaishnav.in',
