@@ -130,3 +130,7 @@ def log_visit(request):
 @ensure_csrf_cookie # This is the "Key" that opens the door
 def home(request):
     return render(request, 'index.html')
+
+# Add this function to the bottom of analytics/views.py
+def contact_page(request):
+    return render(request, 'contact/index.html')

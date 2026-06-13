@@ -1221,12 +1221,13 @@ body.intro-active {
 
 /* Line 2: Email Styling (Clean, No Bold) */
 .email-link {
-    font-family: 'Inter', sans-serif; /* Clean sans-serif font */
-    font-weight: 400; /* Normal weight, no boldness */
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
     font-size: 1.1rem;
     color: var(--color-text-main);
     opacity: 0.9;
     letter-spacing: 0.5px;
+    text-decoration: none; /* <-- ADD THIS LINE to kill the default underline */
 }
 
 .email-link:hover {
