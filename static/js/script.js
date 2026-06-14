@@ -696,7 +696,7 @@ async function logVisit() {
   }
 
   try {
-    await fetch("/analytics/log-visit/", {
+    await fetch("/api/log-visit/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

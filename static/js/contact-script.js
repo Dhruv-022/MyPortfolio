@@ -194,7 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const dataObject = Object.fromEntries(formData.entries());
 
             // Point to your new Vercel Serverless Function
-            fetch('/api/contact', {
+            fetch('/contact/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
